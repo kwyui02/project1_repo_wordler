@@ -22,26 +22,28 @@ def database(word, letter, color):
         yellows = yellows + letter
         print(guess)
 
-    else:
+    elif color == "GREEN":
         index = word.index(letter) + 1
         guess[index] = letter
         print(guess.values())
 
+    else:
+        print("invalid input")
+
 
 def guesser():
     """analyzes for the next best guess"""
-    re.search(pattern, possible_answers)
-    wl = open('/usr/share/dict/words', 'r')
+    wl = open('valid-wordle-words.txt', 'r')
     wordlist = wl.readlines()
     wl.close()
     words_string = "".join(wordlist)
-    print(type(words_string))
+    print(words_string)
 
-    pattern = r"z.*"
-    result = re.search(pattern, words_string)
+    pattern = r"^y.*"
+    results = re.search(pattern, words_string)
 
-    print(result)
-    return next_guess
+    print(results)
+    # return next_guess
 
 
 def main():
@@ -52,7 +54,9 @@ def main():
         color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
         database(guess_word, letter, color)
 
-    print("your next best guess is " + next_guess)
+    # print("your next best guess is " + next_guess)
+
+    guesser()
 
 
 if __name__ == "__main__":
