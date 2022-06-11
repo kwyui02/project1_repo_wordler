@@ -11,7 +11,7 @@ guess = {1: "_",
          5: "_"}
 
 
-def input_word_check():
+def word_length_check():
     """checks if the input word is 5 letters long"""
     valid_length = 5
     while True:
@@ -22,6 +22,12 @@ def input_word_check():
             print("The word is too long!")
         else:
             print("The word is too short!")
+
+
+def char_check(guess_word):
+    """checks for any special characters in the input word"""
+    # TODO regex
+    return guess_word
 
 
 def database(word, letter, grays, yellows):
@@ -54,6 +60,7 @@ def database(word, letter, grays, yellows):
 
 def guesser():
     """analyzes for the next best guess"""
+    # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
     wordlist = wl.readlines()
     wl.close()
@@ -73,10 +80,17 @@ def main():
     yellows = ""
 
     # introduction
-    print("Welcome! I am wordler the wordle solver.")
+    print("Welcome! I am wordler the wordle solver.\n")
+    print("GUIDE: ")
+    print("GRAY = wrong letter")
+    print("YELLOW = right letter, wrong position")
+    print("GREEN = right letter, right position\n")
 
     # input word
-    guess_word = input_word_check()
+    guess_word = word_length_check()
+
+    # special character check
+    guess_word = char_check(guess_word)
 
     # loop for letter colors
     for letter in guess_word:
