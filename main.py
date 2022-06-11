@@ -8,6 +8,7 @@ guess = {1: "_",
          4: "_",
          5: "_"}
 
+
 def database(word, letter, color):
     """interprets received data and updates the database"""
     # note to self, make one for if the user makes a typo
@@ -41,11 +42,23 @@ def database(word, letter, color):
 #     # print(result)
 #     return next_guess
 
-print("Welcome! I am wordler the wordle solver.")
 
-guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
-for letter in guess_word:
-    color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
-    database(guess_word, letter, color)
+def guesser():
+    # insert regex
+    # pattern =
+    # re.search(pattern, possible_answers)
+    pass
 
-# print("your next best guess is " + next_guess)
+
+def main():
+    print("Welcome! I am wordler the wordle solver.")
+
+    guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
+    for letter in guess_word:
+        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+        database(guess_word, letter, color)
+
+    print("your next best guess is " + next_guess)
+    
+if __name__ == "__main__":
+    main()
