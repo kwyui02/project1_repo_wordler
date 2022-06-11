@@ -18,7 +18,9 @@ def database(word, letter, color):
     else:
         index = word.index(letter)
 def guesser():
-    #insert regex
+    # insert regex
+    # pattern =
+    # re.search(pattern, possible_answers)
 
 print("Welcome! I am wordler the wordle solver.")
 
