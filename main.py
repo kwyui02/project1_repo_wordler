@@ -4,6 +4,7 @@ test_word = "dimes"
 guess = ""
 
 def database(word, letter, color):
+    """interprets received data and updates the database"""
     # note to self, make one for if the user makes a typo
     grays = ""
     yellows = ""
