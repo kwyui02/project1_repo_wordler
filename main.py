@@ -1,6 +1,8 @@
 import re
 import os
 
+
+# declaration of starting variables
 test_word = "dimes"
 guess = {1: "_",
          2: "_",
@@ -9,30 +11,32 @@ guess = {1: "_",
          5: "_"}
 
 
-def database(word, letter):
+def database(word, letter, grays, yellows):
     """interprets received data and updates the database"""
     # input color
-    color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+    color = ""
+    while color not in ["GRAY", "YELLOW", "GREEN"]:
+        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
 
-    # process color chosen
-    grays = ""
-    yellows = ""
-    if color == "GRAY":
-        grays = grays + letter
-        print(guess)
+        # process color chosen
+        if color == "GRAY":
+            grays = grays + letter
+            print(guess)
 
-    elif color == "YELLOW":
-        yellows = yellows + letter
-        print(guess)
+        elif color == "YELLOW":
+            yellows = yellows + letter
+            print(guess)
 
-    elif color == "GREEN":
-        index = word.index(letter) + 1
-        guess[index] = letter
-        print(guess.values())
+        elif color == "GREEN":
+            index = word.index(letter) + 1
+            guess[index] = letter
+            print(guess.values())
 
-    else:
-        print("Invalid input")
-        database(word, letter)
+        else:
+            # repeat input
+            print("Invalid input")
+
+    return grays, yellows
 
 
 def guesser():
@@ -47,10 +51,14 @@ def guesser():
     results = re.search(pattern, words_string)
 
     print(results)
-    # return next_guess
+    # TODO return next_guess
 
 
 def main():
+    # declare list of grays and yellows
+    grays = ""
+    yellows = ""
+
     # introduction
     print("Welcome! I am wordler the wordle solver.")
 
@@ -59,12 +67,12 @@ def main():
 
     # loop for letter colors
     for letter in guess_word:
-        database(guess_word, letter)
+        grays, yellows = database(guess_word, letter, grays, yellows)
 
     # TODO next guess
     # print("your next best guess is " + next_guess)
 
-    guesser()
+    # TODO guesser()
 
 
 if __name__ == "__main__":
