@@ -1,7 +1,12 @@
 import re
+import os
 
 test_word = "dimes"
-guess = ""
+guess = {1: "_",
+         2: "_",
+         3: "_",
+         4: "_",
+         5: "_"}
 
 
 def database(word, letter, color):
@@ -9,7 +14,6 @@ def database(word, letter, color):
     # note to self, make one for if the user makes a typo
     grays = ""
     yellows = ""
-    guess = "01234"
     if color == "GRAY":
         grays = grays + letter
         print(guess)
@@ -17,8 +21,26 @@ def database(word, letter, color):
     elif color == "YELLOW":
         yellows = yellows + letter
         print(guess)
+
     else:
-        index = word.index(letter)
+        index = word.index(letter) + 1
+        guess[index] = letter
+        print(guess.values())
+
+# def guesser():
+#     """analyzes for the next best guess"""
+#     re.search(pattern, possible_answers)
+#     # wl = open('/usr/share/dict/words', 'r')
+#     # wordlist = wl.readlines()
+#     # wl.close()
+#     # words_string = "".join(wordlist)
+#     # print(type(words_string))
+#     #
+#     # pattern = r"z.*"
+#     # result = re.search(pattern, words_string)
+#     #
+#     # print(result)
+#     return next_guess
 
 
 def guesser():
@@ -36,6 +58,7 @@ def main():
         color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
         database(guess_word, letter, color)
 
-
+    print("your next best guess is " + next_guess)
+    
 if __name__ == "__main__":
     main()
