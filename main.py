@@ -31,7 +31,7 @@ def database(word, letter, color):
 def guesser():
     """analyzes for the next best guess"""
     re.search(pattern, possible_answers)
-    wl = open('/usr/share/dict/words', 'r')
+    wl = open('valid-wordle-words.txt', 'r')
     wordlist = wl.readlines()
     wl.close()
     words_string = "".join(wordlist)
@@ -47,7 +47,7 @@ def guesser():
 def main():
     print("Welcome! I am wordler the wordle solver.")
 
-    guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
+    guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
     for letter in guess_word:
         color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
         database(guess_word, letter, color)
