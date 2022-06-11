@@ -11,6 +11,19 @@ guess = {1: "_",
          5: "_"}
 
 
+def input_word_check():
+    """checks if the input word is 5 letters long"""
+    valid_length = 5
+    while True:
+        guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+        if len(guess_word) == valid_length:
+            return guess_word
+        elif len(guess_word) > valid_length:
+            print("The word is too long!")
+        else:
+            print("The word is too short!")
+
+
 def database(word, letter, grays, yellows):
     """interprets received data and updates the database"""
     # input color
@@ -63,7 +76,7 @@ def main():
     print("Welcome! I am wordler the wordle solver.")
 
     # input word
-    guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+    guess_word = input_word_check()
 
     # loop for letter colors
     for letter in guess_word:
