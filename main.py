@@ -17,6 +17,7 @@ def database(word, letter, color):
         print(guess)
     else:
         index = word.index(letter)
+        
 def guesser():
     # insert regex
     # pattern =
