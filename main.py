@@ -1,4 +1,5 @@
 import re
+import os
 
 test_word = "dimes"
 guess = {1: "_",
@@ -25,10 +26,20 @@ def database(word, letter, color):
         guess[index] = letter
         print(guess.values())
 
-# def guesser():
-    # insert regex
-    # pattern =
-    # re.search(pattern, possible_answers)
+def guesser():
+    """analyzes for the next best guess"""
+    re.search(pattern, possible_answers)
+    # wl = open('/usr/share/dict/words', 'r')
+    # wordlist = wl.readlines()
+    # wl.close()
+    # words_string = "".join(wordlist)
+    # print(type(words_string))
+    #
+    # pattern = r"z.*"
+    # result = re.search(pattern, words_string)
+    #
+    # print(result)
+    return next_guess
 
 print("Welcome! I am wordler the wordle solver.")
 
@@ -36,3 +47,5 @@ guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
 for letter in guess_word:
     color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
     database(guess_word, letter, color)
+
+print("your next best guess is " + next_guess)
