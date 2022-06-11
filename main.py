@@ -1,7 +1,11 @@
 import re
 
 test_word = "dimes"
-guess = {}
+guess = {1: "_",
+         2: "_",
+         3: "_",
+         4: "_",
+         5: "_"}
 
 def database(word, letter, color):
     """interprets received data and updates the database"""
@@ -19,8 +23,8 @@ def database(word, letter, color):
     else:
         index = word.index(letter) + 1
         guess[index] = letter
-        print(guess)
-        
+        print(guess.values())
+
 # def guesser():
     # insert regex
     # pattern =
