@@ -3,6 +3,7 @@ import re
 test_word = "dimes"
 guess = ""
 
+
 def database(word, letter, color):
     """interprets received data and updates the database"""
     # note to self, make one for if the user makes a typo
@@ -18,15 +19,23 @@ def database(word, letter, color):
         print(guess)
     else:
         index = word.index(letter)
-        
+
+
 def guesser():
     # insert regex
     # pattern =
     # re.search(pattern, possible_answers)
+    pass
 
-print("Welcome! I am wordler the wordle solver.")
 
-guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
-for letter in guess_word:
-    color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
-    database(guess_word, letter, color)
+def main():
+    print("Welcome! I am wordler the wordle solver.")
+
+    guess_word = input("Enter your  word! I suggest adieu or crane.\n").upper()
+    for letter in guess_word:
+        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+        database(guess_word, letter, color)
+
+
+if __name__ == "__main__":
+    main()
