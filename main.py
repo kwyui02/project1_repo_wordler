@@ -9,9 +9,12 @@ guess = {1: "_",
          5: "_"}
 
 
-def database(word, letter, color):
+def database(word, letter):
     """interprets received data and updates the database"""
-    # note to self, make one for if the user makes a typo
+    # input color
+    color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+
+    # process color chosen
     grays = ""
     yellows = ""
     if color == "GRAY":
@@ -28,7 +31,8 @@ def database(word, letter, color):
         print(guess.values())
 
     else:
-        print("invalid input")
+        print("Invalid input")
+        database(word, letter)
 
 
 def guesser():
@@ -47,13 +51,17 @@ def guesser():
 
 
 def main():
+    # introduction
     print("Welcome! I am wordler the wordle solver.")
 
+    # input word
     guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
-    for letter in guess_word:
-        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
-        database(guess_word, letter, color)
 
+    # loop for letter colors
+    for letter in guess_word:
+        database(guess_word, letter)
+
+    # TODO next guess
     # print("your next best guess is " + next_guess)
 
     guesser()
