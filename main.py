@@ -1,14 +1,13 @@
 import re
 
 test_word = "dimes"
-guess = ""
+guess = {}
 
 def database(word, letter, color):
     """interprets received data and updates the database"""
     # note to self, make one for if the user makes a typo
     grays = ""
     yellows = ""
-    guess = "01234"
     if color == "GRAY":
         grays = grays + letter
         print(guess)
@@ -16,10 +15,13 @@ def database(word, letter, color):
     elif color == "YELLOW":
         yellows = yellows + letter
         print(guess)
+
     else:
-        index = word.index(letter)
+        index = word.index(letter) + 1
+        guess[index] = letter
+        print(guess)
         
-def guesser():
+# def guesser():
     # insert regex
     # pattern =
     # re.search(pattern, possible_answers)
