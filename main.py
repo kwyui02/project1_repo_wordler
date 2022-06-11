@@ -27,27 +27,21 @@ def database(word, letter, color):
         guess[index] = letter
         print(guess.values())
 
-# def guesser():
-#     """analyzes for the next best guess"""
-#     re.search(pattern, possible_answers)
-#     # wl = open('/usr/share/dict/words', 'r')
-#     # wordlist = wl.readlines()
-#     # wl.close()
-#     # words_string = "".join(wordlist)
-#     # print(type(words_string))
-#     #
-#     # pattern = r"z.*"
-#     # result = re.search(pattern, words_string)
-#     #
-#     # print(result)
-#     return next_guess
-
 
 def guesser():
-    # insert regex
-    # pattern =
-    # re.search(pattern, possible_answers)
-    pass
+    """analyzes for the next best guess"""
+    re.search(pattern, possible_answers)
+    wl = open('/usr/share/dict/words', 'r')
+    wordlist = wl.readlines()
+    wl.close()
+    words_string = "".join(wordlist)
+    print(type(words_string))
+
+    pattern = r"z.*"
+    result = re.search(pattern, words_string)
+
+    print(result)
+    return next_guess
 
 
 def main():
@@ -59,6 +53,7 @@ def main():
         database(guess_word, letter, color)
 
     print("your next best guess is " + next_guess)
-    
+
+
 if __name__ == "__main__":
     main()
