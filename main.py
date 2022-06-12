@@ -1,5 +1,4 @@
 import re
-import os
 
 
 # declaration of starting variables
@@ -68,12 +67,13 @@ def guesser():
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.readlines()
+    wordlist = wl.read().splitlines()  # split txt file into word list
     wl.close()
-    words_string = "".join(wordlist)
+    words_string = " ".join(wordlist)
 
-    pattern = r"^y.*"
-    results = re.search(pattern, words_string)
+    # regex pattern matching
+    pattern = r"\sa\w*"
+    results = re.findall(pattern, words_string)
 
     print(results)
     # TODO return next_guess
