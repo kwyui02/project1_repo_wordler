@@ -71,7 +71,6 @@ def guesser():
     wordlist = wl.readlines()
     wl.close()
     words_string = "".join(wordlist)
-    # print(words_string)
 
     pattern = r"^y.*"
     results = re.search(pattern, words_string)
@@ -111,12 +110,12 @@ def main():
 
     # loop for letter colors
     for index in range(len(guess_word)):
-        database(guess_word, index, grays, yellows)
+        grays, yellows = database(guess_word, index, grays, yellows)
 
     # TODO next guess
     # print("your next best guess is " + next_guess)
 
-    # TODO guesser()
+    guesser()
 
 
 if __name__ == "__main__":
