@@ -4,12 +4,9 @@ import os
 
 # declaration of starting variables
 test_word = "dimes"
-guess = {1: "_",
-         2: "_",
-         3: "_",
-         4: "_",
-         5: "_"}
+guess = ['_', '_', '_', '_', '_']
 
+# G E E S E
 
 def word_length_check():
     """checks if the input word is 5 letters long"""
@@ -30,9 +27,10 @@ def char_check(guess_word):
     return guess_word
 
 
-def database(word, letter, grays, yellows):
+def database(word, index, grays, yellows):
     """interprets received data and updates the database"""
     # input color
+    letter = word[index]
     color = ""
     while color not in ["GRAY", "YELLOW", "GREEN"]:
         color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
@@ -47,10 +45,9 @@ def database(word, letter, grays, yellows):
             print(guess)
 
         elif color == "GREEN":
-            index = word.index(letter) + 1
             guess[index] = letter
-            print(guess.values())
-
+            print(guess)
+            
         else:
             # repeat input
             print("Invalid input")
@@ -65,7 +62,7 @@ def guesser():
     wordlist = wl.readlines()
     wl.close()
     words_string = "".join(wordlist)
-    print(words_string)
+    # print(words_string)
 
     pattern = r"^y.*"
     results = re.search(pattern, words_string)
@@ -93,8 +90,8 @@ def main():
     guess_word = char_check(guess_word)
 
     # loop for letter colors
-    for letter in guess_word:
-        grays, yellows = database(guess_word, letter, grays, yellows)
+    for index in range(len(guess_word)):
+        database(guess_word, index, grays, yellows)
 
     # TODO next guess
     # print("your next best guess is " + next_guess)
