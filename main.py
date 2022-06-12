@@ -1,39 +1,63 @@
 import re
 import os
 
+
+# declaration of starting variables
 test_word = "dimes"
 guess = ['_', '_', '_', '_', '_']
 
 # G E E S E
 
-def database(word, index):
+def word_length_check():
+    """checks if the input word is 5 letters long"""
+    valid_length = 5
+    while True:
+        guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+        if len(guess_word) == valid_length:
+            return guess_word
+        elif len(guess_word) > valid_length:
+            print("The word is too long!")
+        else:
+            print("The word is too short!")
+
+
+def char_check(guess_word):
+    """checks for any special characters in the input word"""
+    # TODO regex
+    return guess_word
+
+
+def database(word, index, grays, yellows):
     """interprets received data and updates the database"""
     # input color
     letter = word[index]
-    color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+    color = ""
+    while color not in ["GRAY", "YELLOW", "GREEN"]:
+        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
 
-    # process color chosen
-    grays = ""
-    yellows = ""
-    if color == "GRAY":
-        grays = grays + letter
-        print(guess)
+        # process color chosen
+        if color == "GRAY":
+            grays = grays + letter
+            print(guess)
 
-    elif color == "YELLOW":
-        yellows = yellows + letter
-        print(guess)
+        elif color == "YELLOW":
+            yellows = yellows + letter
+            print(guess)
 
-    elif color == "GREEN":
-        guess[index] = letter
-        print(guess)
+        elif color == "GREEN":
+            guess[index] = letter
+            print(guess)
+            
+        else:
+            # repeat input
+            print("Invalid input")
 
-    else:
-        print("Invalid input")
-        database(word, letter)
+    return grays, yellows
 
 
 def guesser():
     """analyzes for the next best guess"""
+    # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
     wordlist = wl.readlines()
     wl.close()
@@ -44,24 +68,35 @@ def guesser():
     results = re.search(pattern, words_string)
 
     print(results)
-    # return next_guess
+    # TODO return next_guess
 
 
 def main():
+    # declare list of grays and yellows
+    grays = ""
+    yellows = ""
+
     # introduction
-    print("Welcome! I am wordler the wordle solver.")
+    print("Welcome! I am wordler the wordle solver.\n")
+    print("GUIDE: ")
+    print("GRAY = wrong letter")
+    print("YELLOW = right letter, wrong position")
+    print("GREEN = right letter, right position\n")
 
     # input word
-    guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+    guess_word = word_length_check()
+
+    # special character check
+    guess_word = char_check(guess_word)
 
     # loop for letter colors
     for index in range(len(guess_word)):
-        database(guess_word, index)
+        database(guess_word, index, grays, yellows)
 
     # TODO next guess
     # print("your next best guess is " + next_guess)
 
-    guesser()
+    # TODO guesser()
 
 
 if __name__ == "__main__":
