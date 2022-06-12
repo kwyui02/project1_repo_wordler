@@ -69,13 +69,17 @@ def guesser():
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
     wordlist = wl.readlines()
+    # wordlist returns "zesty\n" so strip
+    wordlist_stripped = []
+    for word in wordlist:
+        wordlist_stripped.append(word.replace("\n", " "))
     wl.close()
-    words_string = "".join(wordlist)
+    words_string = "".join(wordlist_stripped)
+    print("ws: " + str(words_string))
 
-    pattern = r"^y.*"
-    results = re.search(pattern, words_string)
-
+    results = re.findall(r"\sy\w*", words_string)
     print(results)
+
     # TODO return next_guess
 
 
