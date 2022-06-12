@@ -6,25 +6,34 @@ import os
 test_word = "dimes"
 guess = ['_', '_', '_', '_', '_']
 
-# G E E S E
 
-def word_length_check():
+def input_word():
+    guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+    return guess_word
+
+
+def word_length_check(guess_word):
     """checks if the input word is 5 letters long"""
     valid_length = 5
-    while True:
-        guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
-        if len(guess_word) == valid_length:
-            return guess_word
-        elif len(guess_word) > valid_length:
-            print("The word is too long!")
-        else:
-            print("The word is too short!")
+    if len(guess_word) == valid_length:
+        return True
+    elif len(guess_word) > valid_length:
+        print("The word is too long!\n")
+        return False
+    else:
+        print("The word is too short!\n")
+        return False
 
 
 def char_check(guess_word):
     """checks for any special characters in the input word"""
-    # TODO regex
-    return guess_word
+    result = re.search(r"^[A-Z]*$", guess_word)
+    if result is not None:
+        return False
+    else:
+        # invalid input, ask to input again
+        print("Invalid input! :(")
+        return True
 
 
 def database(word, index, grays, yellows):
@@ -84,10 +93,21 @@ def main():
     print("GREEN = right letter, right position\n")
 
     # input word
-    guess_word = word_length_check()
+    guess_word = input_word()
+
+    # check for length of word
+    while True:
+        is_right_length = word_length_check(guess_word)
+        if is_right_length:
+            break
+        guess_word = input_word()
 
     # special character check
-    guess_word = char_check(guess_word)
+    while True:
+        has_characters = char_check(guess_word)
+        if not has_characters:
+            break
+        guess_word = input_word()
 
     # loop for letter colors
     for index in range(len(guess_word)):
