@@ -55,7 +55,7 @@ def database(word, index, grays, yellows):
         elif color == "GREEN":
             guess[index] = letter
             print(guess)
-            
+
         else:
             # repeat input
             print("Invalid input")
@@ -74,8 +74,9 @@ def guesser():
     # regex pattern matching
     pattern = r"\sa\w*"
     results = re.findall(pattern, words_string)
-
+    
     print(results)
+
     # TODO return next_guess
 
 
