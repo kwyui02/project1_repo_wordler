@@ -1,4 +1,5 @@
 import re
+import os
 
 
 # declaration of starting variables
@@ -63,17 +64,34 @@ def database(word, index, grays, yellows):
     return grays, yellows
 
 
+def valuecheck(index):
+    value = guess[index]
+    if value == "_":
+        return "."
+    else:
+        return value
+
+
 def guesser():
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.readlines()  # split txt file into separated lines
+    wordlist = wl.readlines() # split txt file into separated lines
     wl.close()
+    words_string = "".join(wordlist).upper() # join lines into single word string
 
-    words_string = "".join(wordlist)  # join lines into single word string
+    # value check for letters
+    letter1 = valuecheck(0)
+    letter2 = valuecheck(1)
+    letter3 = valuecheck(2)
+    letter4 = valuecheck(3)
+    letter5 = valuecheck(4)
 
     # regex pattern matching
-    results = re.findall(r"\by\w*\b", words_string)
+    print("guess[3] = " + str(guess[3])) # A D I E U
+    pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b".format(letter1=letter1,letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
+    results = re.findall(pattern, words_string)
+   
     print(results)
 
     # TODO return next_guess
