@@ -67,19 +67,13 @@ def guesser():
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.read().splitlines()  # split txt file into word list
+    wordlist = wl.readlines()  # split txt file into separated lines
     wl.close()
 
-    words_string = "".join(wordlist)
-    # print(words_string)
-
-    results = re.findall(r"\by\w*\b", words_string)
-    print(results)
+    words_string = "".join(wordlist)  # join lines into single word string
 
     # regex pattern matching
-    pattern = r"\sa\w*"
-    results = re.findall(pattern, words_string)
-    
+    results = re.findall(r"\by\w*\b", words_string)
     print(results)
 
     # TODO return next_guess
@@ -122,6 +116,7 @@ def main():
     # print("your next best guess is " + next_guess)
 
     guesser()
+
 
 if __name__ == "__main__":
     main()
