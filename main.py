@@ -76,20 +76,22 @@ def guesser():
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.readlines()
+    wordlist = wl.readlines() # split txt file into separated lines
     wl.close()
-    words_string = "".join(wordlist).upper()
-    # print(words_string)
+    words_string = "".join(wordlist).upper() # join lines into single word string
 
+    # value check for letters
     letter1 = valuecheck(0)
     letter2 = valuecheck(1)
     letter3 = valuecheck(2)
     letter4 = valuecheck(3)
     letter5 = valuecheck(4)
 
+    # regex pattern matching
     print("guess[3] = " + str(guess[3])) # A D I E U
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b".format(letter1=letter1,letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
     results = re.findall(pattern, words_string)
+   
     print(results)
 
     # TODO return next_guess
