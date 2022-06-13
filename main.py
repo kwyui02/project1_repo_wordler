@@ -50,7 +50,7 @@ def database(word, index, grays, yellows):
             print(guess)
 
         elif color == "YELLOW":
-            yellows = yellows + letter
+            yellows[str(index)] = yellows[str(index)] + letter  # update dictionary of yellows at the letter's position
             print(guess)
 
         elif color == "GREEN":
@@ -67,6 +67,7 @@ def database(word, index, grays, yellows):
 def valuecheck(index, grays, yellows):
     value = guess[index]
     if value == "_":
+        # TODO if there aren't any grays
         char = r"[^{grays}]".format(grays=grays)
         return char
     else:
@@ -105,7 +106,13 @@ def guesser(grays, yellows):
 def main():
     # declare list of grays and yellows
     grays = ""
-    yellows = ""
+    yellows = {
+        "0": "",
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": ""
+    }
 
     # introduction
     print("Welcome! I am wordler the wordle solver.\n")
