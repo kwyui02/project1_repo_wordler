@@ -1,4 +1,5 @@
 import re
+import os
 
 
 # declaration of starting variables
@@ -67,19 +68,12 @@ def guesser():
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.read().splitlines()  # split txt file into word list
+    wordlist = wl.readlines()
     wl.close()
-
     words_string = "".join(wordlist)
     # print(words_string)
 
     results = re.findall(r"\by\w*\b", words_string)
-    print(results)
-
-    # regex pattern matching
-    pattern = r"\sa\w*"
-    results = re.findall(pattern, words_string)
-    
     print(results)
 
     # TODO return next_guess
@@ -89,41 +83,6 @@ def main():
     # declare list of grays and yellows
     grays = ""
     yellows = ""
-    
-    # introduction
-    print("Welcome! I am wordler the wordle solver.\n")
-    print("GUIDE: ")
-    print("GRAY = wrong letter")
-    print("YELLOW = right letter, wrong position")
-    print("GREEN = right letter, right position\n")
-    
-    # input word
-    guess_word = input_word()
-    
-    # check for length of word
-    while True:
-        is_right_length = word_length_check(guess_word)
-        if is_right_length:
-            break
-        guess_word = input_word()
-    
-    # special character check
-    while True:
-        has_characters = char_check(guess_word)
-        if not has_characters:
-            break
-        guess_word = input_word()
-    
-    # loop for letter colors
-    for index in range(len(guess_word)):
-        grays, yellows = database(guess_word, index, grays, yellows)
-    
-    # TODO next guess
-    # print("your next best guess is " + next_guess)
-
-    # declare list of grays and yellows
-    grays = ""
-    yellows = ""
 
     # introduction
     print("Welcome! I am wordler the wordle solver.\n")
@@ -155,7 +114,6 @@ def main():
 
     # TODO next guess
     # print("your next best guess is " + next_guess)
-
 
     guesser()
 
