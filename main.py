@@ -64,15 +64,16 @@ def database(word, index, grays, yellows):
     return grays, yellows
 
 
-def valuecheck(index):
+def valuecheck(index, grays, yellows):
     value = guess[index]
     if value == "_":
-        return "."
+        char = r"[^{grays}]".format(grays=grays)
+        return char
     else:
         return value
 
 
-def guesser():
+def guesser(grays, yellows):
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
@@ -80,12 +81,13 @@ def guesser():
     wl.close()
     words_string = "".join(wordlist).upper() # join lines into single word string
 
+
     # value check for letters
-    letter1 = valuecheck(0)
-    letter2 = valuecheck(1)
-    letter3 = valuecheck(2)
-    letter4 = valuecheck(3)
-    letter5 = valuecheck(4)
+    letter1 = valuecheck(0, grays, yellows)
+    letter2 = valuecheck(1, grays, yellows)
+    letter3 = valuecheck(2, grays, yellows)
+    letter4 = valuecheck(3, grays, yellows)
+    letter5 = valuecheck(4, grays, yellows)
 
     # regex pattern matching
     print("guess[3] = " + str(guess[3])) # A D I E U
@@ -93,6 +95,8 @@ def guesser():
     results = re.findall(pattern, words_string)
    
     print(results)
+    print("grays: {}".format(grays))
+    print("yellows: {}".format(yellows))
 
     # TODO return next_guess
 
@@ -133,7 +137,7 @@ def main():
     # TODO next guess
     # print("your next best guess is " + next_guess)
 
-    guesser()
+    guesser(grays, yellows)
 
 
 if __name__ == "__main__":
