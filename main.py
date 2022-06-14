@@ -67,8 +67,7 @@ def database(word, index, grays, yellows):
 def valuecheck(index, grays, yellows):
     value = guess[index]
     if value == "_":
-        # TODO if there aren't any grays
-        char = r"[^{grays}]".format(grays=grays)
+        char = r"[^{grays}{yellows}]".format(grays=grays, yellows=yellows[str(index)])
         return char
     else:
         return value
@@ -94,13 +93,12 @@ def guesser(grays, yellows):
     pattern = pattern.format(letter1=letter1, letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
     results = re.findall(pattern, words_string)
 
-    print(results)
+    # print possible words that fit current grays, yellows, and greens
+    print("Possible words: ", results)
 
     # print current grays and yellows
     print("grays: {}".format(grays))
     print("yellows: {}".format(yellows))
-
-    # TODO return next_guess
 
 
 def main():
@@ -121,31 +119,49 @@ def main():
     print("YELLOW = right letter, wrong position")
     print("GREEN = right letter, right position\n")
 
-    # input word
-    guess_word = input_word()
-
-    # check for length of word
-    while True:
-        is_right_length = word_length_check(guess_word)
-        if is_right_length:
-            break
+    # wordle solver, loop until word is solved
+    is_solved = False
+    guess_num = 1
+    while not is_solved:
+        # input word
         guess_word = input_word()
 
-    # special character check
-    while True:
-        has_characters = char_check(guess_word)
-        if not has_characters:
-            break
-        guess_word = input_word()
+        # check for length of word
+        while True:
+            is_right_length = word_length_check(guess_word)
+            if is_right_length:
+                break
+            guess_word = input_word()
 
-    # loop for letter colors
-    for index in range(len(guess_word)):
-        grays, yellows = database(guess_word, index, grays, yellows)
+        # special character check
+        while True:
+            has_characters = char_check(guess_word)
+            if not has_characters:
+                break
+            guess_word = input_word()
 
-    # TODO next guess
-    # print("your next best guess is " + next_guess)
+        # loop for letter colors
+        for index in range(len(guess_word)):
+            grays, yellows = database(guess_word, index, grays, yellows)
 
-    guesser(grays, yellows)
+        # runs guesser function
+        guesser(grays, yellows)
+
+        # check if wordle is solved
+        while True:
+            solve_input = input("Is the Wordle solved yet? (Yes/No) ").upper()
+            if solve_input not in ["YES", "NO"]:
+                print("Invalid input")
+            else:
+                if solve_input == "YES":
+                    is_solved = True
+                elif solve_input == "NO":
+                    is_solved = False
+                    guess_num += 1
+                break
+
+    # after the wordle is solved
+    print("\nCongratulations! You have solved the wordle in {} tries!".format(guess_num))
 
 
 if __name__ == "__main__":
