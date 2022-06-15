@@ -64,11 +64,22 @@ def database(word, index, grays, yellows):
     return grays, yellows
 
 
-def valuecheck(index, grays, yellows):
+def yellow_last_letter(last_letter):
+    print("Choose a letter with the letter " + last_letter)
+
+
+def value_check(index, grays, yellows):
     value = guess[index]
     if value == "_":
-        char = r"[^{grays}{yellows}]".format(grays=grays, yellows=yellows[str(index)])
-        return char
+        if yellows[str(index)] != "":  # means there is a yellow character
+            char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])  # except grays and that yellow
+            if yellows[str(index)] != "" and index == 4:  # for if the yellow character is the last
+                last_yellow_letter = yellows[str(index)]
+                yellow_last_letter(last_yellow_letter)
+            return char
+        else:
+            char = r"[^{grays}]".format(grays=grays, yellows=yellows[str(index)])
+            return char
     else:
         return value
 
@@ -82,16 +93,18 @@ def guesser(grays, yellows):
     words_string = "".join(wordlist).upper()  # join lines into single word string
 
     # value check for letters
-    letter1 = valuecheck(0, grays, yellows)
-    letter2 = valuecheck(1, grays, yellows)
-    letter3 = valuecheck(2, grays, yellows)
-    letter4 = valuecheck(3, grays, yellows)
-    letter5 = valuecheck(4, grays, yellows)
+    letter1 = value_check(0, grays, yellows)
+    letter2 = value_check(1, grays, yellows)
+    letter3 = value_check(2, grays, yellows)
+    letter4 = value_check(3, grays, yellows)
+    letter5 = value_check(4, grays, yellows)
 
     # regex pattern matching
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
     pattern = pattern.format(letter1=letter1, letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
     results = re.findall(pattern, words_string)
+
+    yellow_last_letter()
 
     # print possible words that fit current grays, yellows, and greens
     print("Possible words: ", results)
