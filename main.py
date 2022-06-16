@@ -73,7 +73,7 @@ def value_check(index, grays, yellows):
     if value == "_":
         if yellows[str(index)] != "":  # means there is a yellow character
             char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])  # except grays and that yellow
-            if yellows[str(index)] != "" and index == 4:  # for if the yellow character is the last
+            if index == 4:  # for if the yellow character is the last
                 last_yellow_letter = yellows[str(index)]
                 yellow_last_letter(last_yellow_letter)
             return char
@@ -103,8 +103,6 @@ def guesser(grays, yellows):
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
     pattern = pattern.format(letter1=letter1, letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
     results = re.findall(pattern, words_string)
-
-    yellow_last_letter()
 
     # print possible words that fit current grays, yellows, and greens
     print("Possible words: ", results)
