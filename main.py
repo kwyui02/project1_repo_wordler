@@ -183,7 +183,7 @@ def main():
                 break
 
     # after the wordle is solved
-    print("\nCongratulations! You have solved the wordle in {} tries!".format(guess_num))
+    print("\nCongratulations! You have solved the wordle in {} tries!".format(guess_num + 1))
 
 
 if __name__ == "__main__":
