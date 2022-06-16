@@ -8,7 +8,7 @@ guess = ['_', '_', '_', '_', '_']
 
 
 def input_word():
-    guess_word = input("Enter your word! I suggest adieu or crane.\n").upper()
+    guess_word = input("Enter your word!\n").upper()
     return guess_word
 
 
