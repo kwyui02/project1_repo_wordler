@@ -64,24 +64,24 @@ def database(word, index, grays, yellows):
     return grays, yellows
 
 
-def yellow_last_letter(last_letter):
-    print("Choose a letter with the letter " + last_letter)
-
-
 def value_check(index, grays, yellows):
     value = guess[index]
     if value == "_":
         if yellows[str(index)] != "":  # means there is a yellow character
             char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])  # except grays and that yellow
-            if index == 4:  # for if the yellow character is the last
-                last_yellow_letter = yellows[str(index)]
-                yellow_last_letter(last_yellow_letter)
             return char
         else:
             char = r"[^{grays}]".format(grays=grays, yellows=yellows[str(index)])
             return char
     else:
         return value
+
+
+def last_char_is_yellow(yellows):
+    if yellows[str(4)] != "":  # means the last letter is yellow
+        return True
+    else:
+        return False
 
 
 def guesser(grays, yellows):
@@ -105,7 +105,18 @@ def guesser(grays, yellows):
     results = re.findall(pattern, words_string)
 
     # print possible words that fit current grays, yellows, and greens
-    print("Possible words: ", results)
+    if not last_char_is_yellow(yellows):
+        print("Possible words: ", results)
+
+    if last_char_is_yellow(yellows):
+        # first transform results to a string
+        results_str = "\n".join(results).upper()
+
+        pattern_yel = r"\b.*{last_yellow_char}.*\b"  # MUST CONTAIN THE LETTER: yellow[str(4)]
+        last_yellow_char = yellows[str(4)]
+        pattern_yellow = pattern_yel.format(last_yellow_char=last_yellow_char)
+        results_yel = re.findall(pattern_yellow, results_str)
+        print("Possible words: ", results_yel)
 
     # print current grays and yellows
     print("grays: {}".format(grays))
