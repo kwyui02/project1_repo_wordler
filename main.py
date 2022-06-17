@@ -1,5 +1,4 @@
 import re
-import os
 
 
 # declaration of starting variables
@@ -47,15 +46,15 @@ def database(word, index, grays, yellows):
         # process color chosen
         if color == "GRAY":
             grays = grays + letter
-            print(guess)
+            # print(guess)
 
         elif color == "YELLOW":
             yellows[str(index)] = yellows[str(index)] + letter  # update dictionary of yellows at the letter's position
-            print(guess)
+            # print(guess)
 
         elif color == "GREEN":
             guess[index] = letter
-            print(guess)
+            # print(guess)
 
         else:
             # repeat input
@@ -104,7 +103,7 @@ def guesser(grays, yellows):
     pattern = pattern.format(letter1=letter1, letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
     results = re.findall(pattern, words_string)
 
-    print("Possible words according to greens and grays, no yellow implementation: ", results)
+    # print("Possible words according to greens and grays, no yellow implementation: ", results)
     results_str = "\n".join(results).upper()
 
     # print possible words that fit current grays, yellows, and greens
@@ -117,7 +116,7 @@ def guesser(grays, yellows):
             n += 1
             yellow_class = yellow_class + value
 
-    print("There are {} yellows, values of which are {}".format(n, yellow_class))
+    # print("There are {} yellows, values of which are {}".format(n, yellow_class))
 
     for yellow_char in yellow_class:
         # regex to word must include yellow_char
@@ -131,22 +130,23 @@ def guesser(grays, yellows):
         results_str = "\n".join(results_str)
 
     final_without_remove = results_str.split("\n")
-    print("final_without_remove: ", final_without_remove)
+    # print("final_without_remove: ", final_without_remove)
+    print("Try one of these!: ", final_without_remove)
 
-        # pattern_fin = r"^{character_class_of_yellows}"  # character_class_of_yellows must be
-        # # ^(?=.*R)(?=.*A)(?=.*N).+ or "(?=.*{}) * 3" <- that.format(value[0], value[1])
-        # pattern_final = pattern_fin.format(character_class_of_yellows=yellow_class)
+    # pattern_fin = r"^{character_class_of_yellows}"  # character_class_of_yellows must be
+    # # ^(?=.*R)(?=.*A)(?=.*N).+ or "(?=.*{}) * 3" <- that.format(value[0], value[1])
+    # pattern_final = pattern_fin.format(character_class_of_yellows=yellow_class)
 
-    if last_char_is_yellow(yellows):
-        pattern_yel = r"\b.*{last_yellow_char}.*\b"  # MUST CONTAIN THE LETTER: yellow[str(4)]
-        last_yellow_char = yellows[str(4)]
-        pattern_yellow = pattern_yel.format(last_yellow_char=last_yellow_char)
-        results_yel = re.findall(pattern_yellow, results_str)
-        print("Possible words if last char is yellow: ", results_yel)
-
-    # print current grays and yellows
-    print("grays: {}".format(grays))
-    print("yellows: {}".format(yellows))
+    # if last_char_is_yellow(yellows):
+    #     pattern_yel = r"\b.*{last_yellow_char}.*\b"  # MUST CONTAIN THE LETTER: yellow[str(4)]
+    #     last_yellow_char = yellows[str(4)]
+    #     pattern_yellow = pattern_yel.format(last_yellow_char=last_yellow_char)
+    #     results_yel = re.findall(pattern_yellow, results_str)
+    #     print("Possible words if last char is yellow: ", results_yel)
+    #
+    # # print current grays and yellows
+    # print("grays: {}".format(grays))
+    # print("yellows: {}".format(yellows))
 
 
 def main():
