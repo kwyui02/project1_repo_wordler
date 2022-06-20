@@ -2,7 +2,6 @@ import re
 
 
 # declaration of starting variables
-test_word = "dimes"
 guess = ['_', '_', '_', '_', '_']
 
 
