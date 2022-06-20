@@ -6,6 +6,7 @@ guess = ['_', '_', '_', '_', '_']
 
 
 def input_word():
+    #  TODO: first word suggest CRANE then second SLIPT, leaves the user only a few choices
     guess_word = input("Enter your word!\n").upper()
     return guess_word
 
@@ -123,7 +124,7 @@ def guesser(grays, yellows):
         pattern = pattern.format(yellow_char=yellow_char)
         results_str = re.findall(pattern, results_str)
 
-        # TODO regex to remove yellow match if the index is its own
+        # regex to remove yellow match if the index is its own
 
         # make results_str into an actual string because it becomes a list ^
         results_str = "\n".join(results_str)
