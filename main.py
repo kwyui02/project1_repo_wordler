@@ -45,15 +45,12 @@ def database(word, index, grays, yellows):
         # process color chosen
         if color == "GRAY":
             grays = grays + letter
-            # print(guess)
 
         elif color == "YELLOW":
             yellows[str(index)] = yellows[str(index)] + letter  # update dictionary of yellows at the letter's position
-            # print(guess)
 
         elif color == "GREEN":
             guess[index] = letter
-            # print(guess)
 
         else:
             # repeat input
@@ -67,10 +64,9 @@ def value_check(index, grays, yellows):
     if value == "_":
         if yellows[str(index)] != "":  # means there is a yellow character
             char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])  # except grays and that yellow
-            return char
         else:
             char = r"[^{grays}]".format(grays=grays, yellows=yellows[str(index)])
-            return char
+        return char
     else:
         return value
 
@@ -125,7 +121,6 @@ def guesser(grays, yellows, guess_num):
         results_str = "\n".join(results_str)
 
     final_without_remove = results_str.split("\n")
-    # print("final_without_remove: ", final_without_remove)
 
     if guess_num == 1:
         print("Try SLIPT after CRANE ;D")
@@ -157,7 +152,7 @@ def main():
     while not is_solved:
         # input word
         if guess_num == 1:
-            guess_word = input("Enter your first word! Try beginning with the word CRANE :)\n")
+            guess_word = input("Enter your first word! Try beginning with the word CRANE :)\n").upper()
         else:
             guess_word = input_word()
 
