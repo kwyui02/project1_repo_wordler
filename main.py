@@ -6,7 +6,6 @@ guess = ['_', '_', '_', '_', '_']
 
 
 def input_word():
-    #  TODO: first word suggest CRANE then second SLIPT, leaves the user only a few choices
     guess_word = input("Enter your word!\n").upper()
     return guess_word
 
@@ -83,7 +82,7 @@ def last_char_is_yellow(yellows):
         return False
 
 
-def guesser(grays, yellows):
+def guesser(grays, yellows, guess_num):
     """analyzes for the next best guess"""
     # open wordle dictionary
     wl = open('valid-wordle-words.txt', 'r')
@@ -131,7 +130,11 @@ def guesser(grays, yellows):
 
     final_without_remove = results_str.split("\n")
     # print("final_without_remove: ", final_without_remove)
-    print("Try one of these!: ", final_without_remove)
+
+    if guess_num == 1:
+        print("Try SLIPT after CRANE ;D")
+    else:
+        print("Try one of these!: ", final_without_remove)
 
     # pattern_fin = r"^{character_class_of_yellows}"  # character_class_of_yellows must be
     # # ^(?=.*R)(?=.*A)(?=.*N).+ or "(?=.*{}) * 3" <- that.format(value[0], value[1])
@@ -193,7 +196,7 @@ def main():
             grays, yellows = database(guess_word, index, grays, yellows)
 
         # runs guesser function
-        guesser(grays, yellows)
+        guesser(grays, yellows, guess_num)
 
         # check if wordle is solved
         while True:
