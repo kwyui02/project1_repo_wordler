@@ -115,15 +115,11 @@ def guesser(grays, yellows, guess_num):
             n += 1
             yellow_class = yellow_class + value
 
-    # print("There are {} yellows, values of which are {}".format(n, yellow_class))
-
     for yellow_char in yellow_class:
         # regex to word must include yellow_char
         pattern = r"\b.*[{yellow_char}].*\b"
         pattern = pattern.format(yellow_char=yellow_char)
         results_str = re.findall(pattern, results_str)
-
-        # regex to remove yellow match if the index is its own
 
         # make results_str into an actual string because it becomes a list ^
         results_str = "\n".join(results_str)
@@ -135,21 +131,6 @@ def guesser(grays, yellows, guess_num):
         print("Try SLIPT after CRANE ;D")
     else:
         print("Try one of these!: ", final_without_remove)
-
-    # pattern_fin = r"^{character_class_of_yellows}"  # character_class_of_yellows must be
-    # # ^(?=.*R)(?=.*A)(?=.*N).+ or "(?=.*{}) * 3" <- that.format(value[0], value[1])
-    # pattern_final = pattern_fin.format(character_class_of_yellows=yellow_class)
-
-    # if last_char_is_yellow(yellows):
-    #     pattern_yel = r"\b.*{last_yellow_char}.*\b"  # MUST CONTAIN THE LETTER: yellow[str(4)]
-    #     last_yellow_char = yellows[str(4)]
-    #     pattern_yellow = pattern_yel.format(last_yellow_char=last_yellow_char)
-    #     results_yel = re.findall(pattern_yellow, results_str)
-    #     print("Possible words if last char is yellow: ", results_yel)
-    #
-    # # print current grays and yellows
-    # print("grays: {}".format(grays))
-    # print("yellows: {}".format(yellows))
 
 
 def main():
