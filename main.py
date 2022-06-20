@@ -175,7 +175,10 @@ def main():
     guess_num = 1
     while not is_solved:
         # input word
-        guess_word = input_word()
+        if guess_num == 1:
+            guess_word = input("Enter your first word! Try beginning with the word CRANE :)\n")
+        else:
+            guess_word = input_word()
 
         # check for length of word
         while True:
