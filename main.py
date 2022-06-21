@@ -24,7 +24,7 @@ def word_length_check(guess_word):
 
 def char_check(guess_word):
     """checks for any special characters in the input word"""
-    result = re.search(r"^[A-Z]*$", guess_word)
+    result = re.search(r"^[A-Za-z]*$", guess_word)
     if result is not None:
         return False
     else:
