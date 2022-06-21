@@ -92,7 +92,7 @@ def guesser(grays, yellows, guess_num):
     results = re.findall(pattern, words_string)
 
     results_str = "\n".join(results).upper()
-
+  
     n = 0
     yellow_class = ""
 
