@@ -43,7 +43,7 @@ def database(word, index, grays, yellows):
             grays += letter
 
         elif color == "YELLOW":
-            yellows[str(index)] += letter
+            yellows[index] += letter
 
         elif color == "GREEN":
             guess[index] = letter
@@ -57,31 +57,26 @@ def database(word, index, grays, yellows):
 def value_check(index, grays, yellows):
     value = guess[index]
     if value == "_":
-        if yellows[str(index)] != "":
-            char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])
-        else:
-            char = r"[^{grays}]".format(grays=grays, yellows=yellows[str(index)])
+        char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[index])
         return char
     else:
         return value
 
 
 def last_char_is_yellow(yellows):
-    if yellows[str(4)] != "":
+    if yellows[4] != "":
         return True
     return False
 
 
 def guesser(grays, yellows, guess_num):
     """analyzes for the next best guess"""
+    # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
         wordlist = f.readlines()
 
     words_string = "".join(wordlist).upper()
-    letters = [""]*5
-
-    for i in range(5):
-        letters[i] = value_check(i, grays, yellows)
+    letters = [value_check(i, grays, yellows) for i in range(5)]
 
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
     pattern = pattern.format(letter1=letters[0], letter2=letters[1], letter3=letters[2], letter4=letters[3], letter5=letters[4])
@@ -89,6 +84,7 @@ def guesser(grays, yellows, guess_num):
 
     results_str = "\n".join(results).upper()
   
+    # for yellow letters
     n = 0
     yellow_class = ""
 
@@ -114,11 +110,11 @@ def guesser(grays, yellows, guess_num):
 def main():
     grays = ""
     yellows = {
-        "0": "",
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
+        0: "",
+        1: "",
+        2: "",
+        3: "",
+        4: ""
     }
 
     print("Welcome! I am wordler the wordle solver.\n")
