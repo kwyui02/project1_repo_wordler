@@ -37,13 +37,13 @@ def database(word, index, grays, yellows):
     letter = word[index]
     color = ""
     while color not in ["GRAY", "YELLOW", "GREEN"]:
-        color = input("What color was the letter " + letter + "?\nPlease enter gray, yellow, or green\n").upper()
+        color = input(f"What color was the letter {letter}?\nPlease enter gray, yellow, or green\n").upper()
 
         if color == "GRAY":
-            grays = grays + letter
+            grays += letter
 
         elif color == "YELLOW":
-            yellows[str(index)] = yellows[str(index)] + letter
+            yellows[str(index)] += letter
 
         elif color == "GREEN":
             guess[index] = letter
@@ -59,10 +59,9 @@ def value_check(index, grays, yellows):
     if value == "_":
         if yellows[str(index)] != "":
             char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[str(index)])
-            return char
         else:
             char = r"[^{grays}]".format(grays=grays, yellows=yellows[str(index)])
-            return char
+        return char
     else:
         return value
 
@@ -70,25 +69,22 @@ def value_check(index, grays, yellows):
 def last_char_is_yellow(yellows):
     if yellows[str(4)] != "":
         return True
-    else:
-        return False
+    return False
 
 
 def guesser(grays, yellows, guess_num):
     """analyzes for the next best guess"""
-    wl = open('valid-wordle-words.txt', 'r')
-    wordlist = wl.readlines()
-    wl.close()
-    words_string = "".join(wordlist).upper()
+    with open('valid-wordle-words.txt', 'r') as f:
+        wordlist = f.readlines()
 
-    letter1 = value_check(0, grays, yellows)
-    letter2 = value_check(1, grays, yellows)
-    letter3 = value_check(2, grays, yellows)
-    letter4 = value_check(3, grays, yellows)
-    letter5 = value_check(4, grays, yellows)
+    words_string = "".join(wordlist).upper()
+    letters = [""]*5
+
+    for i in range(5):
+        letters[i] = value_check(i, grays, yellows)
 
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
-    pattern = pattern.format(letter1=letter1, letter2=letter2, letter3=letter3, letter4=letter4, letter5=letter5)
+    pattern = pattern.format(letter1=letters[0], letter2=letters[1], letter3=letters[2], letter4=letters[3], letter5=letters[4])
     results = re.findall(pattern, words_string)
 
     results_str = "\n".join(results).upper()
@@ -99,7 +95,7 @@ def guesser(grays, yellows, guess_num):
     for value in yellows.values():
         if value != "":
             n += 1
-            yellow_class = yellow_class + value
+            yellow_class += value
 
     for yellow_char in yellow_class:
         pattern = r"\b.*[{yellow_char}].*\b"
@@ -168,7 +164,7 @@ def main():
                     guess_num += 1
                 break
 
-    print("\nCongratulations! You have solved the wordle in {} tries!".format(guess_num + 1))
+    print(f"\nCongratulations! You have solved the wordle in {guess_num + 1} tries!")
 
 
 if __name__ == "__main__":
