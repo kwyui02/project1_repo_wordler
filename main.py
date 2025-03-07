@@ -23,7 +23,10 @@ def word_length_check(guess_word: str) -> int:
 
 
 def char_check(guess_word: str) -> bool:
-    """checks for any special characters in the input word"""
+    """
+        checks for any special characters in the input word
+        returns True if there are no special characters
+    """
     return re.search(r"^[A-Za-z]*$", guess_word) is not None
 
 
@@ -140,13 +143,13 @@ def main() -> None:
             guess_word = input_word()
 
         while True:
-            has_characters = char_check(guess_word)
-            if not has_characters:
+            has_no_characters = char_check(guess_word)
+            if has_no_characters:
                 break
-            print("Invalid input! :(")
+            print("Invalid input. Please remove any special characters.")
             guess_word = input_word()
 
-        for index in range(len(guess_word)):
+        for index in range(valid_length):
             grays, yellows = database(guess_word, index, grays, yellows)
 
         guesser(grays, yellows, guess_num)
