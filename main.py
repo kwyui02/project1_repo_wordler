@@ -83,7 +83,7 @@ def validate_wordle_solve() -> bool:
 
 
 def update_database(word: str, grays: str, yellows: 
-             dict[str, int]) -> tuple[str, dict[str, int]]:
+                    list[str]) -> tuple[str, list[str]]:
     """
         interprets received data and updates the database
     """
@@ -111,7 +111,7 @@ def update_database(word: str, grays: str, yellows:
     return grays, yellows
 
 
-def value_check(grays: str, yellows: dict[str, int]) -> str:
+def value_check(grays: str, yellows: list[str]) -> str:
     letters = []
     for index in range(valid_length):
         value = guess[index]
@@ -122,39 +122,26 @@ def value_check(grays: str, yellows: dict[str, int]) -> str:
     return "".join(letters)
 
 
-def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
+def guesser(grays: str, yellows: list[str]) -> list[str]:
     """
         analyzes for the next best guess
     """
+    # for green letters
     letters = value_check(grays, yellows)
     results = re.findall(rf"\b{letters}\b", words_string)
     results_str = "\n".join(results).upper()
   
     # for yellow letters
-    n = 0
-    yellow_class = ""
-
-    for value in yellows.values():
-        if value != "":
-            n += 1
-            yellow_class += value
-
-    for yellow_char in yellow_class:
-        pattern = rf"\b.*[{yellow_char}].*\b"
-        results_str = "\n".join(re.findall(pattern, results_str))
+    yellow_chars = "".join(yellows)
+    for char in yellow_chars:
+        results_str = "\n".join(re.findall(rf"\b.*[{char}].*\b", results_str))
     
     return results_str.split("\n")
 
 
 def main() -> None:
     grays = ""
-    yellows = {
-        0: "",
-        1: "",
-        2: "",
-        3: "",
-        4: ""
-    }
+    yellows = [""] * valid_length
     is_solved = False
     guess_ctr = 1
 
