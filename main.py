@@ -64,6 +64,20 @@ def validate_word() -> str:
     return guess_word
 
 
+def validate_wordle_solve() -> bool:
+    """
+        validates the input for wordle solve\n
+        returns the input if the input is valid (YES/NO)\n
+        prompts the user again if the input is invalid
+    """
+    while True:
+        solve_input = input("Is the Wordle solved yet? (Yes/No) ").upper()
+        if solve_input not in ["YES", "NO"]:
+            print("Invalid input")
+        else:
+            return solve_input == "YES"
+
+
 def update_database(word: str, grays: str, yellows: 
              dict[str, int]) -> tuple[str, dict[str, int]]:
     """
@@ -165,20 +179,10 @@ def main() -> None:
         guesses_num = len(guesses)
         print(f"\nTry one of these!: {guesses}")
         print(f"There are {guesses_num} possible words left.")
+        is_solved = validate_wordle_solve()
+        guess_ctr += 1
 
-        while True:
-            solve_input = input("Is the Wordle solved yet? (Yes/No) ").upper()
-            if solve_input not in ["YES", "NO"]:
-                print("Invalid input")
-            else:
-                if solve_input == "YES":
-                    is_solved = True
-                elif solve_input == "NO":
-                    is_solved = False
-                    guess_ctr += 1
-                break
-
-    print(f"\nCongratulations! You have solved the wordle in {guess_ctr + 1} " 
+    print(f"\nCongratulations! You have solved the wordle in {guess_ctr} " 
           "tries!")
 
 
