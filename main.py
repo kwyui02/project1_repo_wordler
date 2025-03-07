@@ -1,12 +1,9 @@
 import re
 
-
 guess = ['_', '_', '_', '_', '_']
 
-
 def input_word() -> str:
-    guess_word = input("Enter your word!\n").upper()
-    return guess_word
+    return input("Enter your word!\n").upper()
 
 
 def word_length_check(guess_word: str) -> bool:
@@ -32,12 +29,14 @@ def char_check(guess_word: str) -> bool:
         return True
 
 
-def database(word: str, index: int, grays: list[str], yellows: list[str]) -> tuple[list[str], list[str]]:
+def database(word: str, index: int, grays: str, yellows: 
+             dict[str, int]) -> tuple[str, dict[str, int]]:
     """interprets received data and updates the database"""
     letter = word[index]
     color = ""
     while color not in ["GRAY", "YELLOW", "GREEN"]:
-        color = input(f"What color was the letter {letter}?\nPlease enter gray, yellow, or green\n").upper()
+        print(f"What color was the letter {letter}?", end=" ")
+        color = input("Please enter gray, yellow, or green\n").upper()
 
         if color == "GRAY":
             grays += letter
@@ -54,22 +53,21 @@ def database(word: str, index: int, grays: list[str], yellows: list[str]) -> tup
     return grays, yellows
 
 
-def value_check(index: int, grays: list[str], yellows: list[str]) -> str:
+def value_check(index: int, grays: str, 
+                yellows: dict[str, int]) -> str:
     value = guess[index]
     if value == "_":
-        char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[index])
-        return char
+        return r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[index])
     else:
         return value
 
 
-def last_char_is_yellow(yellows: list[str]) -> bool:
-    if yellows[4] != "":
-        return True
-    return False
+def last_char_is_yellow(yellows: dict[str, int]) -> bool:
+    return yellows[4] != ""
 
 
-def guesser(grays: list[str], yellows: list[str], guess_num: int) -> None:
+def guesser(grays: str, yellows: dict[str, int], 
+            guess_num: int) -> None:
     """analyzes for the next best guess"""
     # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
@@ -79,7 +77,11 @@ def guesser(grays: list[str], yellows: list[str], guess_num: int) -> None:
     letters = [value_check(i, grays, yellows) for i in range(5)]
 
     pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
-    pattern = pattern.format(letter1=letters[0], letter2=letters[1], letter3=letters[2], letter4=letters[3], letter5=letters[4])
+    pattern = pattern.format(letter1=letters[0], 
+                             letter2=letters[1], 
+                             letter3=letters[2], 
+                             letter4=letters[3], 
+                             letter5=letters[4])
     results = re.findall(pattern, words_string)
 
     results_str = "\n".join(results).upper()
@@ -127,7 +129,8 @@ def main() -> None:
     guess_num = 1
     while not is_solved:
         if guess_num == 1:
-            guess_word = input("Enter your first word! Try beginning with the word CRANE :)\n")
+            guess_word = input("Enter your first word! "
+                "Try beginning with the word CRANE :)\n")
         else:
             guess_word = input_word()
 
@@ -160,7 +163,8 @@ def main() -> None:
                     guess_num += 1
                 break
 
-    print(f"\nCongratulations! You have solved the wordle in {guess_num + 1} tries!")
+    print(f"\nCongratulations! You have solved the wordle in {guess_num + 1} " 
+          "tries!")
 
 
 if __name__ == "__main__":
