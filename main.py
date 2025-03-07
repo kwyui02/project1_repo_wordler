@@ -4,12 +4,12 @@ import re
 guess = ['_', '_', '_', '_', '_']
 
 
-def input_word():
+def input_word() -> str:
     guess_word = input("Enter your word!\n").upper()
     return guess_word
 
 
-def word_length_check(guess_word):
+def word_length_check(guess_word: str) -> bool:
     """checks if the input word is 5 letters long"""
     valid_length = 5
     if len(guess_word) == valid_length:
@@ -22,7 +22,7 @@ def word_length_check(guess_word):
         return False
 
 
-def char_check(guess_word):
+def char_check(guess_word: str) -> bool:
     """checks for any special characters in the input word"""
     result = re.search(r"^[A-Za-z]*$", guess_word)
     if result is not None:
@@ -32,7 +32,7 @@ def char_check(guess_word):
         return True
 
 
-def database(word, index, grays, yellows):
+def database(word: str, index: int, grays: list[str], yellows: list[str]) -> tuple[list[str], list[str]]:
     """interprets received data and updates the database"""
     letter = word[index]
     color = ""
@@ -54,7 +54,7 @@ def database(word, index, grays, yellows):
     return grays, yellows
 
 
-def value_check(index, grays, yellows):
+def value_check(index: int, grays: list[str], yellows: list[str]) -> str:
     value = guess[index]
     if value == "_":
         char = r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[index])
@@ -63,13 +63,13 @@ def value_check(index, grays, yellows):
         return value
 
 
-def last_char_is_yellow(yellows):
+def last_char_is_yellow(yellows: list[str]) -> bool:
     if yellows[4] != "":
         return True
     return False
 
 
-def guesser(grays, yellows, guess_num):
+def guesser(grays: list[str], yellows: list[str], guess_num: int) -> None:
     """analyzes for the next best guess"""
     # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
@@ -107,7 +107,7 @@ def guesser(grays, yellows, guess_num):
         print("Try one of these!: ", final_without_remove)
 
 
-def main():
+def main() -> None:
     grays = ""
     yellows = {
         0: "",
