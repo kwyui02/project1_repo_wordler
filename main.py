@@ -16,6 +16,14 @@ def input_letter(letter: str) -> str:
     return color
 
 
+def print_guide() -> None:
+    print("Welcome! I am wordler the wordle solver.\n")
+    print("GUIDE: ")
+    print("GRAY = wrong letter")
+    print("YELLOW = right letter, wrong position")
+    print("GREEN = right letter, right position\n")
+
+
 def word_length_check(guess_word: str) -> int:
     """ 
         checks if the input word is 5 letters long, returns:
@@ -39,17 +47,18 @@ def char_check(guess_word: str) -> bool:
     return re.search(r"^[A-Za-z]*$", guess_word) is not None
 
 
-def database(word: str, index: int, grays: str, yellows: 
+def database(word: str, grays: str, yellows: 
              dict[str, int]) -> tuple[str, dict[str, int]]:
     """interprets received data and updates the database"""
-    letter = word[index]
-    color = input_letter(letter)
-    if color == "GRAY":
-        grays += letter
-    elif color == "YELLOW":
-        yellows[index] += letter
-    elif color == "GREEN":
-        guess[index] = letter
+    for index in range(valid_length):
+        letter = word[index]
+        color = input_letter(letter)
+        if color == "GRAY":
+            grays += letter
+        elif color == "YELLOW":
+            yellows[index] += letter
+        elif color == "GREEN":
+            guess[index] = letter
     return grays, yellows
 
 
@@ -66,7 +75,7 @@ def last_char_is_yellow(yellows: dict[str, int]) -> bool:
     return yellows[4] != ""
 
 
-def guesser(grays: str, yellows: dict[str, int]) -> None:
+def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
     """analyzes for the next best guess"""
     # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
@@ -100,8 +109,8 @@ def guesser(grays: str, yellows: dict[str, int]) -> None:
         results_str = re.findall(pattern, results_str)
         results_str = "\n".join(results_str)
 
-    final_without_remove = results_str.split("\n")
-    print("Try one of these!: ", final_without_remove)
+    
+    return results_str.split("\n")
 
 
 def main() -> None:
@@ -113,15 +122,10 @@ def main() -> None:
         3: "",
         4: ""
     }
-
-    print("Welcome! I am wordler the wordle solver.\n")
-    print("GUIDE: ")
-    print("GRAY = wrong letter")
-    print("YELLOW = right letter, wrong position")
-    print("GREEN = right letter, right position\n")
-
     is_solved = False
     guess_num = 1
+
+    print_guide()
     while not is_solved:
         if guess_num == 1:
             print("It's your first word! "
@@ -145,10 +149,11 @@ def main() -> None:
             print("Invalid input. Please remove any special characters.")
             guess_word = input_word()
 
-        for index in range(valid_length):
-            grays, yellows = database(guess_word, index, grays, yellows)
-
-        guesser(grays, yellows)
+        grays, yellows = database(guess_word, grays, yellows)
+        guesses = guesser(grays, yellows)
+        guesses_num = len(guesses)
+        print(f"\nTry one of these!: {guesses}")
+        print(f"There are {guesses_num} possible words left.")
 
         while True:
             solve_input = input("Is the Wordle solved yet? (Yes/No) ").upper()
