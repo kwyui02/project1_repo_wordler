@@ -4,7 +4,16 @@ guess = ['_', '_', '_', '_', '_']
 valid_length = 5
 
 def input_word() -> str:
-    return input("Enter your word!\n").upper()
+    return input("Enter your word: \n").upper()
+
+
+def input_letter(letter: str) -> str:
+    print(f"What color was the letter {letter}?", end=" ")
+    color = input("Please enter gray, yellow, or green.\n").upper()
+    while color not in ["GRAY", "YELLOW", "GREEN"]:
+        print("Invalid input.", end=" ")
+        color = input("Please enter gray, yellow, or green.\n").upper()
+    return color
 
 
 def word_length_check(guess_word: str) -> int:
@@ -34,20 +43,13 @@ def database(word: str, index: int, grays: str, yellows:
              dict[str, int]) -> tuple[str, dict[str, int]]:
     """interprets received data and updates the database"""
     letter = word[index]
-    color = ""
-    while color not in ["GRAY", "YELLOW", "GREEN"]:
-        print(f"What color was the letter {letter}?", end=" ")
-        color = input("Please enter gray, yellow, or green\n").upper()
-
-        if color == "GRAY":
-            grays += letter
-        elif color == "YELLOW":
-            yellows[index] += letter
-        elif color == "GREEN":
-            guess[index] = letter
-        else:
-            print("Invalid input")
-
+    color = input_letter(letter)
+    if color == "GRAY":
+        grays += letter
+    elif color == "YELLOW":
+        yellows[index] += letter
+    elif color == "GREEN":
+        guess[index] = letter
     return grays, yellows
 
 
@@ -64,8 +66,7 @@ def last_char_is_yellow(yellows: dict[str, int]) -> bool:
     return yellows[4] != ""
 
 
-def guesser(grays: str, yellows: dict[str, int], 
-            guess_num: int) -> None:
+def guesser(grays: str, yellows: dict[str, int]) -> None:
     """analyzes for the next best guess"""
     # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
@@ -100,11 +101,7 @@ def guesser(grays: str, yellows: dict[str, int],
         results_str = "\n".join(results_str)
 
     final_without_remove = results_str.split("\n")
-
-    if guess_num == 1:
-        print("Try SLIPT after CRANE ;D")
-    else:
-        print("Try one of these!: ", final_without_remove)
+    print("Try one of these!: ", final_without_remove)
 
 
 def main() -> None:
@@ -127,10 +124,9 @@ def main() -> None:
     guess_num = 1
     while not is_solved:
         if guess_num == 1:
-            guess_word = input("Enter your first word! "
-                "Try beginning with the word CRANE :)\n")
-        else:
-            guess_word = input_word()
+            print("It's your first word! "
+                "Try beginning with the word CRANE :)")
+        guess_word = input_word()
 
         while True:
             is_right_length = word_length_check(guess_word)
@@ -152,7 +148,7 @@ def main() -> None:
         for index in range(valid_length):
             grays, yellows = database(guess_word, index, grays, yellows)
 
-        guesser(grays, yellows, guess_num)
+        guesser(grays, yellows)
 
         while True:
             solve_input = input("Is the Wordle solved yet? (Yes/No) ").upper()
