@@ -5,15 +5,6 @@ guess = ['_', '_', '_', '_', '_']
 valid_length = 5
 
 
-def input_letter(letter: str) -> str:
-    print(f"What color was the letter {letter}?", end=" ")
-    color = input("Please enter gray, yellow, or green.\n").upper()
-    while color not in ["GRAY", "YELLOW", "GREEN"]:
-        print("Invalid input.", end=" ")
-        color = input("Please enter gray, yellow, or green.\n").upper()
-    return color
-
-
 def print_guide() -> None:
     print("Welcome! I am wordler the wordle solver.\n")
     print("GUIDE: ")
@@ -23,14 +14,19 @@ def print_guide() -> None:
 
 
 def validate_word() -> str:
+    """
+        validates the input word\n
+        returns the word if it is valid\n
+        prompts the user again if it is invalid
+    """
     def input_word() -> str:
         return input("Enter your word: \n").upper()
     
     def word_length_check(guess_word: str) -> int:
         """ 
-            checks if the input word is 5 letters long, returns:
-            1 if the word is valid
-            0 if the word is too long
+            checks if the input word is 5 letters long, returns:\n
+            1 if the word is valid\n
+            0 if the word is too long\n
             -1 if the word is too short
         """
         if len(guess_word) == valid_length:
@@ -42,7 +38,7 @@ def validate_word() -> str:
 
     def char_check(guess_word: str) -> bool:
         """
-            checks for any special characters in the input word
+            checks for any special characters in the input word\n
             returns True if there are no special characters
         """
         return re.search(r"^[A-Za-z]*$", guess_word) is not None
@@ -68,9 +64,23 @@ def validate_word() -> str:
     return guess_word
 
 
-def database(word: str, grays: str, yellows: 
+def update_database(word: str, grays: str, yellows: 
              dict[str, int]) -> tuple[str, dict[str, int]]:
-    """interprets received data and updates the database"""
+    """
+        interprets received data and updates the database
+    """
+    def input_letter(letter: str) -> str:
+        """
+            prompts the user for the color of the letter\n
+            returns the color of the letter (GRAY, YELLOW, GREEN)
+        """
+        print(f"What color was the letter {letter}?", end=" ")
+        color = input("Please enter gray, yellow, or green.\n").upper()
+        while color not in ["GRAY", "YELLOW", "GREEN"]:
+            print("Invalid input.", end=" ")
+            color = input("Please enter gray, yellow, or green.\n").upper()
+        return color
+
     for index in range(valid_length):
         letter = word[index]
         color = input_letter(letter)
@@ -87,13 +97,15 @@ def value_check(index: int, grays: str,
                 yellows: dict[str, int]) -> str:
     value = guess[index]
     if value == "_":
-        return r"[^{grays}{yellow}]".format(grays=grays, yellow=yellows[index])
+        return rf"[^{grays}{yellows[index]}]"
     else:
         return value
 
 
 def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
-    """analyzes for the next best guess"""
+    """
+        analyzes for the next best guess
+    """
     # take guess and filter results
     with open('valid-wordle-words.txt', 'r') as f:
         wordlist = f.readlines()
@@ -125,7 +137,6 @@ def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
         pattern = pattern.format(yellow_char=yellow_char)
         results_str = re.findall(pattern, results_str)
         results_str = "\n".join(results_str)
-
     
     return results_str.split("\n")
 
@@ -149,7 +160,7 @@ def main() -> None:
                 "Try beginning with the word CRANE :)")
 
         guess_word = validate_word()
-        grays, yellows = database(guess_word, grays, yellows)
+        grays, yellows = update_database(guess_word, grays, yellows)
         guesses = guesser(grays, yellows)
         guesses_num = len(guesses)
         print(f"\nTry one of these!: {guesses}")
