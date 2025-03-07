@@ -1,32 +1,30 @@
 import re
 
 guess = ['_', '_', '_', '_', '_']
+valid_length = 5
 
 def input_word() -> str:
     return input("Enter your word!\n").upper()
 
 
-def word_length_check(guess_word: str) -> bool:
-    """checks if the input word is 5 letters long"""
-    valid_length = 5
+def word_length_check(guess_word: str) -> int:
+    """ 
+        checks if the input word is 5 letters long, returns:
+        1 if the word is valid
+        0 if the word is too long
+        -1 if the word is too short
+    """
     if len(guess_word) == valid_length:
-        return True
+        return 1
     elif len(guess_word) > valid_length:
-        print("The word is too long!\n")
-        return False
+        return 0
     else:
-        print("The word is too short!\n")
-        return False
+        return -1
 
 
 def char_check(guess_word: str) -> bool:
     """checks for any special characters in the input word"""
-    result = re.search(r"^[A-Za-z]*$", guess_word)
-    if result is not None:
-        return False
-    else:
-        print("Invalid input! :(")
-        return True
+    return re.search(r"^[A-Za-z]*$", guess_word) is not None
 
 
 def database(word: str, index: int, grays: str, yellows: 
@@ -40,13 +38,10 @@ def database(word: str, index: int, grays: str, yellows:
 
         if color == "GRAY":
             grays += letter
-
         elif color == "YELLOW":
             yellows[index] += letter
-
         elif color == "GREEN":
             guess[index] = letter
-
         else:
             print("Invalid input")
 
@@ -136,14 +131,19 @@ def main() -> None:
 
         while True:
             is_right_length = word_length_check(guess_word)
-            if is_right_length:
+            if is_right_length == 1:
                 break
+            if is_right_length == 0:
+                print("The word is too long!\n")
+            else:
+                print("The word is too short!\n")
             guess_word = input_word()
 
         while True:
             has_characters = char_check(guess_word)
             if not has_characters:
                 break
+            print("Invalid input! :(")
             guess_word = input_word()
 
         for index in range(len(guess_word)):
