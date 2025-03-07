@@ -1,8 +1,12 @@
 import re
 
 
+# process the wordle words into uppercase string format
 guess = ['_', '_', '_', '_', '_']
 valid_length = 5
+with open('valid-wordle-words.txt', 'r') as f:
+    wordlist = f.readlines()
+words_string = "".join(wordlist).upper()
 
 
 def print_guide() -> None:
@@ -120,21 +124,8 @@ def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
     """
         analyzes for the next best guess
     """
-    # take guess and filter results
-    with open('valid-wordle-words.txt', 'r') as f:
-        wordlist = f.readlines()
-
-    words_string = "".join(wordlist).upper()
     letters = [value_check(i, grays, yellows) for i in range(5)]
-
-    pattern = r"\b{letter1}{letter2}{letter3}{letter4}{letter5}\b"
-    pattern = pattern.format(letter1=letters[0], 
-                             letter2=letters[1], 
-                             letter3=letters[2], 
-                             letter4=letters[3], 
-                             letter5=letters[4])
-    results = re.findall(pattern, words_string)
-
+    results = re.findall(rf"\b{''.join(letters)}\b", words_string)
     results_str = "\n".join(results).upper()
   
     # for yellow letters
@@ -147,10 +138,8 @@ def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
             yellow_class += value
 
     for yellow_char in yellow_class:
-        pattern = r"\b.*[{yellow_char}].*\b"
-        pattern = pattern.format(yellow_char=yellow_char)
-        results_str = re.findall(pattern, results_str)
-        results_str = "\n".join(results_str)
+        pattern = rf"\b.*[{yellow_char}].*\b"
+        results_str = "\n".join(re.findall(pattern, results_str))
     
     return results_str.split("\n")
 
