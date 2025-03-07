@@ -111,21 +111,23 @@ def update_database(word: str, grays: str, yellows:
     return grays, yellows
 
 
-def value_check(index: int, grays: str, 
-                yellows: dict[str, int]) -> str:
-    value = guess[index]
-    if value == "_":
-        return rf"[^{grays}{yellows[index]}]"
-    else:
-        return value
+def value_check(grays: str, yellows: dict[str, int]) -> str:
+    letters = []
+    for index in range(valid_length):
+        value = guess[index]
+        if value == "_":
+            letters.append(rf"[^{grays}{yellows[index]}]")
+        else:
+            letters.append(value)
+    return "".join(letters)
 
 
 def guesser(grays: str, yellows: dict[str, int]) -> list[str]:
     """
         analyzes for the next best guess
     """
-    letters = [value_check(i, grays, yellows) for i in range(5)]
-    results = re.findall(rf"\b{''.join(letters)}\b", words_string)
+    letters = value_check(grays, yellows)
+    results = re.findall(rf"\b{letters}\b", words_string)
     results_str = "\n".join(results).upper()
   
     # for yellow letters
