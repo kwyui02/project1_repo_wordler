@@ -2,7 +2,7 @@ import re
 
 
 # process the wordle words into uppercase string format
-guess = ['_', '_', '_', '_', '_']
+guess = ["_" for _ in range(5)]
 valid_length = 5
 with open('valid-wordle-words.txt', 'r') as f:
     wordlist = f.readlines()
@@ -16,6 +16,14 @@ def print_guide() -> None:
     print("YELLOW = right letter, wrong position")
     print("GREEN = right letter, right position\n")
     print("It's your first word! Try beginning with the word CRANE :)")
+
+
+def print_finish(guess_ctr: int) -> None:
+    if guess_ctr == 1:
+        print("\nCongratulations! You have solved the wordle in 1 try!")
+    else:
+        print(f"\nCongratulations! You have solved the wordle in {guess_ctr}"
+            " tries!")
 
 
 def validate_word() -> str:
@@ -88,6 +96,9 @@ def update_database(word: str, grays: str, yellows:
             prompts the user for the color of the letter\n
             returns the color of the letter (GRAY, YELLOW, GREEN)
         """
+        print(f"\nWORD: {"".join(guess)}")
+        print("GRAYS: ", grays)
+        print("YELLOWS: ", yellows)
         print(f"What color was the letter {letter}?", end=" ")
         color = input("Please enter gray, yellow, or green.\n").upper()
         while color not in ["GRAY", "YELLOW", "GREEN"]:
@@ -135,6 +146,8 @@ def guesser(grays: str, yellows: list[str]) -> list[str]:
     for char in yellow_chars:
         results_str = "\n".join(re.findall(rf"\b.*[{char}].*\b", results_str))
     
+    if results_str == "":
+        return []
     return results_str.split("\n")
 
 
@@ -156,8 +169,7 @@ def main() -> None:
         is_solved = validate_wordle_solve()
         guess_ctr += 1
 
-    print(f"\nCongratulations! You have solved the wordle in {guess_ctr} " 
-          "tries!")
+    print_finish(guess_ctr)
 
 
 if __name__ == "__main__":
