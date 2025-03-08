@@ -1,14 +1,6 @@
 import re
 
 
-# process the wordle words into uppercase string format
-guess = ["_" for _ in range(5)]
-valid_length = 5
-with open('valid-wordle-words.txt', 'r') as f:
-    wordlist = f.readlines()
-words_string = "".join(wordlist).upper()
-
-
 def print_guide() -> None:
     print("Welcome! I am wordler the wordle solver.\n")
     print("GUIDE: ")
@@ -173,4 +165,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # process the wordle words into uppercase string format
+    guess = ["_" for _ in range(5)]
+    valid_length = 5
+    with open('valid-wordle-words.txt', 'r') as f:
+        wordlist = f.readlines()
+    words_string = "".join(wordlist).upper()
     main()
