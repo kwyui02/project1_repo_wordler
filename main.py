@@ -15,6 +15,7 @@ def print_guide() -> None:
     print("GRAY = wrong letter")
     print("YELLOW = right letter, wrong position")
     print("GREEN = right letter, right position\n")
+    print("It's your first word! Try beginning with the word CRANE :)")
 
 
 def validate_word() -> str:
@@ -35,10 +36,9 @@ def validate_word() -> str:
         """
         if len(guess_word) == valid_length:
             return 1
-        elif len(guess_word) > valid_length:
+        if len(guess_word) > valid_length:
             return 0
-        else:
-            return -1
+        return -1
 
     def char_check(guess_word: str) -> bool:
         """
@@ -47,25 +47,21 @@ def validate_word() -> str:
         """
         return re.search(r"^[A-Za-z]*$", guess_word) is not None
 
-    guess_word = input_word()
     while True:
+        guess_word = input_word()
         is_right_length = word_length_check(guess_word)
-        if is_right_length == 1:
-            break
-        if is_right_length == 0:
-            print("The word is too long!\n")
-        else:
-            print("The word is too short!\n")
-        guess_word = input_word()
+        if is_right_length != 1:
+            if is_right_length == 0:
+                print("The word is too long!\n")
+            else:
+                print("The word is too short!\n")
+            continue
 
-    while True:
         has_no_characters = char_check(guess_word)
-        if has_no_characters:
-            break
-        print("Invalid input. Please remove any special characters.")
-        guess_word = input_word()
-
-    return guess_word
+        if not has_no_characters:
+            print("Invalid input. Please remove any special characters.")
+            continue
+        return guess_word
 
 
 def validate_wordle_solve() -> bool:
@@ -112,6 +108,9 @@ def update_database(word: str, grays: str, yellows:
 
 
 def value_check(grays: str, yellows: list[str]) -> str:
+    """
+        excludes the gray and yellow letters from each letter index
+    """
     letters = []
     for index in range(valid_length):
         value = guess[index]
@@ -147,16 +146,11 @@ def main() -> None:
 
     print_guide()
     while not is_solved:
-        if guess_ctr == 1:
-            print("It's your first word! "
-                "Try beginning with the word CRANE :)")
-
         guess_word = validate_word()
         grays, yellows = update_database(guess_word, grays, yellows)
         guesses = guesser(grays, yellows)
-        guesses_num = len(guesses)
         print(f"\nTry one of these!: {guesses}")
-        print(f"There are {guesses_num} possible words left.")
+        print(f"There are {len(guesses)} possible words left.")
         is_solved = validate_wordle_solve()
         guess_ctr += 1
 
