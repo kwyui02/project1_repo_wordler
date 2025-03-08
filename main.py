@@ -29,7 +29,7 @@ def validate_word() -> str:
     
     def word_length_check(guess_word: str) -> int:
         """ 
-            checks if the input word is 5 letters long, returns:\n
+            checks if the input word is the valid length, returns:\n
             1 if the word is valid\n
             0 if the word is too long\n
             -1 if the word is too short
@@ -148,6 +148,8 @@ def main() -> None:
     while not is_solved:
         guess_word = validate_word()
         grays, yellows = update_database(guess_word, grays, yellows)
+        if "_" not in guess:  # check if word is guessed already (all green)
+            break
         guesses = guesser(grays, yellows)
         print(f"\nTry one of these!: {guesses}")
         print(f"There are {len(guesses)} possible words left.")
