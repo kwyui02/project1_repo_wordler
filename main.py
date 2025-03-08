@@ -1,4 +1,4 @@
-import re
+from re import findall, search
 
 
 def print_guide() -> None:
@@ -45,7 +45,7 @@ def validate_word() -> str:
             checks for any special characters in the input word\n
             returns True if there are no special characters
         """
-        return re.search(r"^[A-Za-z]*$", guess_word) is not None
+        return search(r"^[A-Za-z]*$", guess_word) is not None
 
     while True:
         guess_word = input_word()
@@ -89,8 +89,8 @@ def update_database(word: str, grays: str, yellows:
             returns the color of the letter (GRAY, YELLOW, GREEN)
         """
         print(f"\nWORD: {"".join(guess)}")
-        print("GRAYS: ", grays)
-        print("YELLOWS: ", yellows)
+        print(f"GRAYS: {"".join(set(grays))}")
+        print(f"YELLOWS: {yellows}")
         print(f"What color was the letter {letter}?", end=" ")
         color = input("Please enter gray, yellow, or green.\n").upper()
         while color not in ["GRAY", "YELLOW", "GREEN"]:
@@ -130,13 +130,13 @@ def guesser(grays: str, yellows: list[str]) -> list[str]:
     """
     # for green letters
     letters = value_check(grays, yellows)
-    results = re.findall(rf"\b{letters}\b", words_string)
+    results = findall(rf"\b{letters}\b", words_string)
     results_str = "\n".join(results).upper()
   
     # for yellow letters
     yellow_chars = "".join(yellows)
     for char in yellow_chars:
-        results_str = "\n".join(re.findall(rf"\b.*[{char}].*\b", results_str))
+        results_str = "\n".join(findall(rf"\b.*[{char}].*\b", results_str))
     
     if results_str == "":
         return []
